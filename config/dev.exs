@@ -58,8 +58,9 @@ config :bee, BeeWeb.Endpoint,
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/bee_web/(live|views)/.*(ex)$",
-      ~r"lib/bee_web/templates/.*(eex)$"
+      # ~r"lib/bee_web/(live|views)/.*(ex)$",
+      # ~r"lib/bee_web/templates/.*(eex)$"
+      ~r"lib/bee_web/(components|controllers|live|views)/.*(ex)$",
     ]
   ]
 
