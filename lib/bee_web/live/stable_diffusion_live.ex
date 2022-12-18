@@ -18,7 +18,9 @@ defmodule BeeWeb.StableDiffusionLive do
   end
   def handle_info({ref, result}, socket) when socket.assigns.task.ref == ref do
     Logger.info("#{__MODULE__} received result #{inspect result}")
-    {:noreply, assign(socket, task: nil, result: result)}
+
+    images = persists_result(result.results)
+    {:noreply, assign(socket, task: nil, result: images)}
   end
 
   def handle_info(params, socket) do
@@ -44,7 +46,7 @@ defmodule BeeWeb.StableDiffusionLive do
             phx-debounce="300"
             value={@negative_text}
           />
-          <button phx-disable-with="Saving...">Save Customer</button>
+          <button phx-disable-with="Saving...">Predict</button>
         </form>
         <div class="mt-2 flex space-x-1.5 items-center text-gray-600 text-lg">
           <span>Result:</span>
@@ -52,12 +54,36 @@ defmodule BeeWeb.StableDiffusionLive do
             <.spinner />
           <% else %>
             <%= if @result do %>
-              <%= inspect @result %>
+              <%= for image <- @result do %>
+                <ul>
+                  <li>
+                    {image}
+                    <img src={image} />
+                  </li>
+                </ul>
+              <% end %>
             <% end %>
           <% end %>
         </div>
       </div>
     </div>
     """
+  end
+
+  defp persists_result(results) do
+    results
+    |> Enum.map(fn r ->
+      {:ok, image} = Image.from_nx(r.image)
+
+      name = "#{Ecto.UUID.generate()}.jpg"
+      path = Path.join([:code.priv_dir(:bee), "static", "images", name])
+      url = Path.join("/images", name)
+
+      case Image.write(image, path) do
+        {:ok, _} -> url
+        error -> IO.inspect(error); nil
+      end
+    end)
+    |> Enum.reject(& is_nil(&1))
   end
 end

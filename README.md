@@ -167,8 +167,79 @@ iex(3)> result = Nx.Serving.batched_run(BeeStableDiffusionServing, %{prompt: tex
     }
   ]
 }
-iex4> result.results |> Enum_with_index() |> Enum.each(fn -> {r, index} 
+iex4> result.results |> Enum_with_index() |> Enum.each(fn {r, index} ->
   {:ok, image} = Image.from_nx(r.image)
-  Imge.write(image, "test/fixtures/test_#{index}.jpg", suffix: :jpg)
+  Imge.write(image, "test/fixtures/test_#{index}.jpg")
 end)
+```
+
+Un autre exemple.
+
+```
+iex(5)> text = "Mbappe, Messi, footbal"                                                                                                       "Mbappe, Messi, footbal"                  
+iex(6)> negative_text = "world, cup, France, Argentine"                                                                                       "world, cup, France, Argentine"           
+iex(7)> result = Nx.Serving.batched_run(BeeStableDiffusionServing, %{prompt: text, negative_prompt: negative_text})                           %{                                        
+  results: [
+    %{
+      image: #Nx.Tensor<
+        u8[512][512][3]
+        EXLA.Backend<host:0, 0.2961323227.3131441200.146360>
+        [
+          [
+            [86, 73, 51],
+            [87, 72, 47],
+            [84, 69, 44],
+            [89, 76, 50],
+            [87, 71, 45],
+            [87, 72, 45],
+            [86, 71, 46],
+            [86, 72, 47],
+            [86, 71, 44],
+            [89, 74, 47],
+            [87, 72, 44],
+            [88, 73, 46],
+            [87, 73, 47],
+            [85, 71, 45],
+            [86, 71, 47],
+            [84, 71, ...],
+            ...
+          ],
+          ...
+        ]
+      >,
+      is_safe: true
+    },
+    %{
+      image: #Nx.Tensor<
+        u8[512][512][3]
+        EXLA.Backend<host:0, 0.2961323227.3131441200.146364>
+        [
+          [
+            [108, 125, 85],
+            [103, 123, 75],
+            [108, 131, 79],
+            [98, 122, 70],
+            [106, 130, 76],
+            [107, 132, 77],
+            [104, 130, 76],
+            [104, 129, 75],
+            [102, 128, 74],
+            [100, 127, 73],
+            [96, 122, 67],
+            [101, 129, 75],
+            [90, 116, 62],
+            [93, 121, 66],
+            [96, 122, 67],
+            [98, ...],
+            ...
+          ],
+          ...
+        ]
+      >,
+      is_safe: true
+    }
+  ]
+}
+iex(8)> result.results |> Enum.with_index() |> Enum.each(fn {r, index} -> {:ok, image} = Image.from_nx(r.image); Image.write(image, "test/fixtures/foot_#{index}.jpg") end)
+:ok
 ```

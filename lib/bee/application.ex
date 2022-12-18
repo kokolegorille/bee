@@ -20,6 +20,7 @@ defmodule Bee.Application do
       {Nx.Serving, serving: serving_text(), name: BeeTextServing},
       {Nx.Serving, serving: serving_image(), name: BeeImageServing, batch_timeout: 100},
       {Nx.Serving, serving: serving_stable_diffusion(), name: BeeStableDiffusionServing},
+      {Nx.Serving, serving: serving_gpt2(), name: BeeGpt2Serving},
       # Start the Endpoint (http/https)
       BeeWeb.Endpoint
       # Start a worker by calling: Bee.Worker.start_link(arg)
@@ -90,6 +91,13 @@ defmodule Bee.Application do
       compile: [batch_size: 1, sequence_length: 60],
       defn_options: [compiler: EXLA]
     )
+  end
+
+  def serving_gpt2 do
+    {:ok, gpt2} = Bumblebee.load_model({:hf, "gpt2"})
+    {:ok, tokenizer} = Bumblebee.load_tokenizer({:hf, "gpt2"})
+
+    Bumblebee.Text.generation(gpt2, tokenizer, max_new_tokens: 10)
   end
 
   # Tell Phoenix to update the endpoint configuration
