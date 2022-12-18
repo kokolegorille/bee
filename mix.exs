@@ -55,6 +55,7 @@ defmodule Bee.MixProject do
       {:bumblebee, "~> 0.1.2"},
       {:exla, "~> 0.4.1"},
       {:xla, "~> 0.4.3"},
+      {:image, "~> 0.16.0"},
     ]
   end
 

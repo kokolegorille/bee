@@ -97,4 +97,78 @@ Done in 154ms.
 ```
 
 
+## Test Stable Diffusion
 
+```
+iex(1)> text = "numbat, forest, high quality, detailed, digital art"
+"numbat, forest, high quality, detailed, digital art"
+iex(2)> negative_text = "darkness, rainy, foggy"
+"darkness, rainy, foggy"
+iex(3)> result = Nx.Serving.batched_run(BeeStableDiffusionServing, %{prompt: text, negative_prompt: negative_text})
+%{
+  results: [
+    %{
+      image: #Nx.Tensor<
+        u8[512][512][3]
+        EXLA.Backend<host:0, 0.3536702673.2258239536.2772>
+        [
+          [
+            [75, 103, 11],
+            [68, 107, 0],
+            [64, 109, 0],
+            [63, 110, 0],
+            [62, 107, 0],
+            [61, 110, 0],
+            [61, 110, 0],
+            [60, 110, 0],
+            [60, 110, 0],
+            [60, 110, 0],
+            [61, 109, 0],
+            [61, 109, 0],
+            [61, 109, 0],
+            [60, 108, 0],
+            [60, 109, 0],
+            [60, 109, ...],
+            ...
+          ],
+          ...
+        ]
+      >,
+      is_safe: true
+    },
+    %{
+      image: #Nx.Tensor<
+        u8[512][512][3]
+        EXLA.Backend<host:0, 0.3536702673.2258239536.2779>
+        [
+          [
+            [134, 147, 98],
+            [132, 148, 91],
+            [132, 151, 92],
+            [129, 150, 91],
+            [129, 147, 89],
+            [129, 147, 89],
+            [127, 146, 89],
+            [130, 149, 89],
+            [127, 146, 86],
+            [126, 145, 83],
+            [129, 149, 87],
+            [126, 146, 85],
+            [122, 142, 81],
+            [126, 146, 84],
+            [124, 143, 82],
+            [125, ...],
+            ...
+          ],
+          ...
+        ]
+      >,
+      is_safe: true
+    }
+  ]
+}
+iex4> result.results |> Enum_with_index() |> Enum.each(fn -> {r, index} 
+  {:ok, image} = Image.from_nx(r.image)
+  Imge.write(image, "test/fixtures/test_#{index}.jpg", suffix: :jpg)
+end)
+```

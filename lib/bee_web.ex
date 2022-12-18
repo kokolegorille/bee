@@ -88,6 +88,8 @@ defmodule BeeWeb do
       import BeeWeb.CoreComponents
       import BeeWeb.Gettext
 
+      import BeeWeb.CustomComponents
+
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS
 

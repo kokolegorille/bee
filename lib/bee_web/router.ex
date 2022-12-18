@@ -20,6 +20,7 @@ defmodule BeeWeb.Router do
     get "/", PageController, :home
     live "/texts", PageLive
     live "/images", ImageLive
+    live "/diffusions", StableDiffusionLive
   end
 
   # Other scopes may use custom stacks.
