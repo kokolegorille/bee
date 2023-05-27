@@ -243,3 +243,36 @@ iex(7)> result = Nx.Serving.batched_run(BeeStableDiffusionServing, %{prompt: tex
 iex(8)> result.results |> Enum.with_index() |> Enum.each(fn {r, index} -> {:ok, image} = Image.from_nx(r.image); Image.write(image, "test/fixtures/foot_#{index}.jpg") end)
 :ok
 ```
+
+## Update Phoenix
+
+* Update Phoenix 1.7.2 (from 1.7.0-rc0)
+* Remove GPT2 example
+* Add speech to text example
+
+### Changes
+
+```
+$ git status
+Sur la branche main
+Votre branche est à jour avec 'origin/main'.
+
+Modifications qui ne seront pas validées :
+  (utilisez "git add/rm <fichier>..." pour mettre à jour ce qui sera validé)
+  (utilisez "git restore <fichier>..." pour annuler les modifications dans le répertoire de travail)
+	modifié :         README.md
+	modifié :         assets/js/app.js
+	modifié :         lib/bee/application.ex
+	modifié :         lib/bee_web/components/layouts/app.html.heex
+	modifié :         lib/bee_web/components/layouts/root.html.heex
+	supprimé :        lib/bee_web/live/text_generation.ex
+	modifié :         lib/bee_web/router.ex
+	modifié :         mix.exs
+	modifié :         mix.lock
+
+Fichiers non suivis:
+  (utilisez "git add <fichier>..." pour inclure dans ce qui sera validé)
+	assets/js/hooks/Microphone.js
+	lib/bee_web/live/speech_live.ex
+	lib/bee_web/live/text_generation_live.ex
+```

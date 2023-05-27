@@ -19,7 +19,7 @@ defmodule Bee.MixProject do
   def application do
     [
       mod: {Bee.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :os_mon]
     ]
   end
 
@@ -32,13 +32,13 @@ defmodule Bee.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.7.0-rc.0", override: true},
+      {:phoenix, "~> 1.7.2"},
       {:phoenix_ecto, "~> 4.4"},
       {:ecto_sql, "~> 3.6"},
       {:postgrex, ">= 0.0.0"},
-      {:phoenix_html, "~> 3.0"},
+      {:phoenix_html, "~> 3.3"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_view, "~> 0.18.3"},
+      {:phoenix_live_view, "~> 0.18.16"},
       {:heroicons, "~> 0.5"},
       {:floki, ">= 0.30.0", only: :test},
       {:phoenix_live_dashboard, "~> 0.7.2"},
@@ -52,10 +52,10 @@ defmodule Bee.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       #
-      {:bumblebee, "~> 0.1.2"},
-      {:exla, "~> 0.4.1"},
-      {:xla, "~> 0.4.3"},
-      {:image, "~> 0.16.0"},
+      {:bumblebee, "~> 0.3.0"},
+      {:exla, ">= 0.0.0"},
+      # {:xla, "~> 0.4.4"},
+      {:image, "~> 0.32.0"},
     ]
   end
 

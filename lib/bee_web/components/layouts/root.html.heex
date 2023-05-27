@@ -12,15 +12,6 @@
     </script>
   </head>
   <body class="bg-white antialiased">
-
-    <ul class="flex">
-      <li class="mr-2"><.link href={~p"/"}><%= gettext("Home") %></.link></li>
-      <li class="mr-2"><.link href={~p"/texts"}><%= gettext("Texts Analysis") %></.link></li>
-      <li class="mr-2"><.link href={~p"/images"}><%= gettext("Images Classification") %></.link></li>
-      <li class="mr-2"><.link href={~p"/diffusions"}><%= gettext("Stable Diffusion") %></.link></li>
-      <li class="mr-2"><.link href={~p"/gpt2"}><%= gettext("Text Generation") %></.link></li>
-    </ul>
-
     <%= @inner_content %>
   </body>
 </html>

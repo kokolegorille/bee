@@ -21,7 +21,8 @@ defmodule BeeWeb.Router do
     live "/texts", PageLive
     live "/images", ImageLive
     live "/diffusions", StableDiffusionLive
-    live "/gpt2", TextGenerationLive
+    # live "/gpt2", TextGenerationLive
+    live "/speechs", SpeechLive
   end
 
   # Other scopes may use custom stacks.

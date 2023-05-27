@@ -23,9 +23,11 @@ import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 
 import { ImageInput } from "./hooks/ImageInput"
+import { Microphone } from "./hooks/Microphone"
 
 const hooks = {
-    ImageInput
+    ImageInput,
+    Microphone
 }
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")

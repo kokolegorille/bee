@@ -16,11 +16,14 @@ defmodule Bee.Application do
       {Phoenix.PubSub, name: Bee.PubSub},
       # Start Finch
       {Finch, name: Bee.Finch},
+
       # Nx
       {Nx.Serving, serving: serving_text(), name: BeeTextServing},
       {Nx.Serving, serving: serving_image(), name: BeeImageServing, batch_timeout: 100},
       {Nx.Serving, serving: serving_stable_diffusion(), name: BeeStableDiffusionServing},
-      {Nx.Serving, serving: serving_gpt2(), name: BeeGpt2Serving},
+      # {Nx.Serving, serving: serving_gpt2(), name: BeeGpt2Serving},
+      {Nx.Serving, serving: serving_speech(), name: BeeSpeechServing},
+
       # Start the Endpoint (http/https)
       BeeWeb.Endpoint
       # Start a worker by calling: Bee.Worker.start_link(arg)
@@ -49,7 +52,6 @@ defmodule Bee.Application do
 
   def serving_image do
     {:ok, model_info} = Bumblebee.load_model({:hf, "microsoft/resnet-50"})
-
     {:ok, featurizer} = Bumblebee.load_featurizer({:hf, "microsoft/resnet-50"})
 
     Bumblebee.Vision.image_classification(model_info, featurizer,
@@ -62,25 +64,19 @@ defmodule Bee.Application do
     repository_id = "CompVis/stable-diffusion-v1-4"
 
     {:ok, tokenizer} = Bumblebee.load_tokenizer({:hf, "openai/clip-vit-large-patch14"})
-
     {:ok, clip} = Bumblebee.load_model({:hf, repository_id, subdir: "text_encoder"})
-
     {:ok, unet} =
       Bumblebee.load_model({:hf, repository_id, subdir: "unet"},
         params_filename: "diffusion_pytorch_model.bin"
       )
-
     {:ok, vae} =
       Bumblebee.load_model({:hf, repository_id, subdir: "vae"},
         architecture: :decoder,
         params_filename: "diffusion_pytorch_model.bin"
       )
-
     {:ok, scheduler} = Bumblebee.load_scheduler({:hf, repository_id, subdir: "scheduler"})
-
     {:ok, featurizer} =
       Bumblebee.load_featurizer({:hf, repository_id, subdir: "feature_extractor"})
-
     {:ok, safety_checker} = Bumblebee.load_model({:hf, repository_id, subdir: "safety_checker"})
 
     Bumblebee.Diffusion.StableDiffusion.text_to_image(clip, unet, vae, tokenizer, scheduler,
@@ -93,11 +89,23 @@ defmodule Bee.Application do
     )
   end
 
-  def serving_gpt2 do
-    {:ok, gpt2} = Bumblebee.load_model({:hf, "gpt2"})
-    {:ok, tokenizer} = Bumblebee.load_tokenizer({:hf, "gpt2"})
+  # def serving_gpt2 do
+  #   {:ok, gpt2} = Bumblebee.load_model({:hf, "gpt2"})
+  #   {:ok, tokenizer} = Bumblebee.load_tokenizer({:hf, "gpt2"})
 
-    Bumblebee.Text.generation(gpt2, tokenizer, max_new_tokens: 10)
+  #   Bumblebee.Text.generation(gpt2, tokenizer, max_new_tokens: 10)
+  # end
+
+  defp serving_speech do
+    {:ok, model_info} = Bumblebee.load_model({:hf, "openai/whisper-tiny"})
+    {:ok, featurizer} = Bumblebee.load_featurizer({:hf, "openai/whisper-tiny"})
+    {:ok, tokenizer} = Bumblebee.load_tokenizer({:hf, "openai/whisper-tiny"})
+    {:ok, generation_config} = Bumblebee.load_generation_config({:hf, "openai/whisper-tiny"})
+
+    Bumblebee.Audio.speech_to_text(model_info, featurizer, tokenizer, generation_config,
+      compile: [batch_size: 10],
+      defn_options: [compiler: EXLA]
+    )
   end
 
   # Tell Phoenix to update the endpoint configuration
