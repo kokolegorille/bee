@@ -12,6 +12,18 @@
     </script>
   </head>
   <body class="bg-white antialiased">
+    <header class="px-4 sm:px-6 lg:px-8">
+      <ul class="flex">
+        <li class="mr-2"><.link href={~p"/"} class="text-blue-500 hover:text-blue-800"><%= gettext("Home") %></.link></li>
+        <li class="mr-2"><.link href={~p"/texts"} class="text-blue-500 hover:text-blue-800"><%= gettext("Texts Analysis") %></.link></li>
+        <li class="mr-2"><.link href={~p"/images"} class="text-blue-500 hover:text-blue-800"><%= gettext("Images Classification") %></.link></li>
+        <li class="mr-2"><.link href={~p"/diffusions"} class="text-blue-500 hover:text-blue-800"><%= gettext("Stable Diffusion") %></.link></li>
+        <!--
+        <li class="mr-2"><.link href={~p"/gpt2"} class="text-blue-500 hover:text-blue-800"><%= gettext("Text Generation") %></.link></li>
+        -->
+        <li class="mr-2"><.link href={~p"/speechs"} class="text-blue-500 hover:text-blue-800"><%= gettext("Speech to text") %></.link></li>
+      </ul>
+    </header>
     <%= @inner_content %>
   </body>
 </html>

@@ -7,7 +7,7 @@ defmodule BeeWeb.SpeechLive do
     ~H"""
     <div class="h-screen w-screen flex items-center justify-center antialiased">
       <div class="flex flex-col items-center w-1/2">
-        <div class="mb-3">Keep the button pressed while recording. Release the mouse to stop it.</div>
+        <div class="mb-3">Keep the button pressed while recording. Release the mouse to stop.</div>
         <button
           type="button"
           id="microphone"
