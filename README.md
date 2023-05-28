@@ -357,3 +357,10 @@ $ export BUMBLEBEE_OFFLINE=true
 $ iex -S mix phx.server
 ```
 
+La taille du cache fait environ 8G 
+
+```
+$ ls -lah /export/bee/huggingface/
+total 7.7G
+...
+```
