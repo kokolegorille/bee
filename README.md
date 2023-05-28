@@ -297,3 +297,63 @@ Modifications qui ne seront pas validées :
 	modifié :         lib/bee_web/live/speech_live.ex
 ```
 
+## More examples... 
+
+* Named Entities Recognition
+
+text: Rachel Green works at Ralph Lauren in New York City in the sitcom Friends
+
+* Fill Mask
+
+text: The capital of [MASK] is Paris.
+
+* Qestion and Answer (QA)
+
+question:
+Which name is also used to describe the Amazon rainforest in English?
+
+context:
+The Amazon rainforest (Portuguese: Floresta Amazônica or Amazônia; Spanish: Selva Amazónica, Amazonía or usually Amazonia; French: Forêt amazonienne; Dutch: Amazoneregenwoud), also known in English as Amazonia or the Amazon Jungle, is a moist broadleaf forest that covers most of the Amazon basin of South America. This basin encompasses 7,000,000 square kilometres (2,700,000 sq mi), of which 5,500,000 square kilometres (2,100,000 sq mi) are covered by the rainforest. This region includes territory belonging to nine nations. The majority of the forest is contained within Brazil, with 60% of the rainforest, followed by Peru with 13%, Colombia with 10%, and with minor amounts in Venezuela, Ecuador, Bolivia, Guyana, Suriname and French Guiana. States or departments in four nations contain "Amazonas" in their names. The Amazon represents over half of the planet's remaining rainforests, and comprises the largest and most biodiverse tract of tropical rainforest in the world, with an estimated 390 billion individual trees divided into 16,000 species.
+
+### Changes
+
+```
+$ git status
+Sur la branche main
+Votre branche est à jour avec 'origin/main'.
+
+Modifications qui ne seront pas validées :
+  (utilisez "git add <fichier>..." pour mettre à jour ce qui sera validé)
+  (utilisez "git restore <fichier>..." pour annuler les modifications dans le répertoire de travail)
+	modifié :         README.md
+	modifié :         lib/bee/application.ex
+	modifié :         lib/bee_web/components/layouts/root.html.heex
+	modifié :         lib/bee_web/controllers/page_html/home.html.heex
+	modifié :         lib/bee_web/live/page_live.ex
+	modifié :         lib/bee_web/live/stable_diffusion_live.ex
+	modifié :         lib/bee_web/live/text_generation_live.ex
+	modifié :         lib/bee_web/router.ex
+
+Fichiers non suivis:
+  (utilisez "git add <fichier>..." pour inclure dans ce qui sera validé)
+	lib/bee_web/live/mask_live.ex
+	lib/bee_web/live/ner_live.ex
+	lib/bee_web/live/qa_live.ex
+```
+
+## Cache
+
+Il est possible de cacher les modèles, et ensuite, les utiliser...
+Réf: https://hexdocs.pm/bumblebee/Bumblebee.html
+
+```
+$ export BUMBLEBEE_CACHE_DIR=/export/bee
+$ mix app.start
+
+# Et ensuite...
+
+$ export BUMBLEBEE_CACHE_DIR=/export/bee
+$ export BUMBLEBEE_OFFLINE=true
+$ iex -S mix phx.server
+```
+

@@ -26,7 +26,7 @@ defmodule BeeWeb.PageLive do
 
   def render(assigns) do
     ~H"""
-    <div class="h-screen m-auto flex items-center justify-center antialiased">
+    <div class="m-auto flex items-center justify-center antialiased">
       <div class="flex flex-col h-1/2 w-1/2">
         <form class="m-0 flex space-x-2" phx-change="predict">
           <input

@@ -1,4 +1,4 @@
-defmodule BeeWeb.TextGenerationLive do
+defmodule BeeWeb.MaskLive do
   use BeeWeb, :live_view
 
   def mount(_parasm, _session, socket) do
@@ -11,7 +11,7 @@ defmodule BeeWeb.TextGenerationLive do
         {:noreply, assign(socket, text: nil, task: nil, result: nil)}
 
       text ->
-        task = Task.async(fn -> Nx.Serving.batched_run(BeeGpt2Serving, text) end)
+        task = Task.async(fn -> Nx.Serving.batched_run(BeeFillMaskServing, text) end)
         {:noreply, assign(socket, text: text, task: task, result: nil)}
     end
   end
@@ -37,17 +37,14 @@ defmodule BeeWeb.TextGenerationLive do
             value={@text}
           />
         </form>
+        <span>Example: The capital of [MASK] is Paris.</span>
         <div class="mt-2 flex space-x-1.5 items-center text-gray-600 text-lg">
-          <span>Gpt2:</span>
+          <span>Fill Mask:</span>
           <%= if @task do %>
             <.spinner />
           <% else %>
             <%= if @result do %>
-            <ul>
-              <%= for result <- @result.results do %>
-              <li><%= result.text %></li>
-              <% end %>
-            </ul>
+              <%= inspect @result %>
             <% end %>
           <% end %>
         </div>

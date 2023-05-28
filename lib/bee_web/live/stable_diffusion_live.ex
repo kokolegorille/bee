@@ -1,6 +1,5 @@
 defmodule BeeWeb.StableDiffusionLive do
   use BeeWeb, :live_view
-  require Logger
 
   def mount(_parasm, _session, socket) do
     {:ok, assign(socket, text: nil, negative_text: nil, task: nil, result: nil)}
@@ -11,25 +10,21 @@ defmodule BeeWeb.StableDiffusionLive do
       {"", ""} ->
         {:noreply, assign(socket, text: nil, negative_text: nil, task: nil, result: nil)}
       {text, negative_text} ->
-        Logger.info("Start prediction")
         task = Task.async(fn -> Nx.Serving.batched_run(BeeStableDiffusionServing, %{prompt: text, negative_prompt: negative_text}) end)
         {:noreply, assign(socket, text: text, negative_text: negative_text, task: task, result: nil)}
     end
   end
   def handle_info({ref, result}, socket) when socket.assigns.task.ref == ref do
-    Logger.info("#{__MODULE__} received result #{inspect result}")
-
     images = persists_result(result.results)
     {:noreply, assign(socket, task: nil, result: images)}
   end
 
-  def handle_info(params, socket) do
-    Logger.info("#{__MODULE__} received info #{inspect params}")
+  def handle_info(_params, socket) do
     {:noreply, socket}
   end
   def render(assigns) do
     ~H"""
-    <div class="h-screen m-auto flex items-center justify-center antialiased">
+    <div class="m-auto flex items-center justify-center antialiased">
       <div class="flex flex-col h-1/2 w-1/2">
         <form class="m-0 flex space-x-2" phx-submit="predict">
           <input
