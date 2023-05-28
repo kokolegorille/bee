@@ -276,3 +276,24 @@ Fichiers non suivis:
 	lib/bee_web/live/speech_live.ex
 	lib/bee_web/live/text_generation_live.ex
 ```
+
+## Update Styles
+
+Fix Templates rendering.
+
+### Changes
+
+```
+$ git status
+Sur la branche main
+Votre branche est à jour avec 'origin/main'.
+
+Modifications qui ne seront pas validées :
+  (utilisez "git add <fichier>..." pour mettre à jour ce qui sera validé)
+  (utilisez "git restore <fichier>..." pour annuler les modifications dans le répertoire de travail)
+	modifié :         README.md
+	modifié :         lib/bee_web/controllers/page_html/home.html.heex
+	modifié :         lib/bee_web/live/image_live.ex
+	modifié :         lib/bee_web/live/speech_live.ex
+```
+

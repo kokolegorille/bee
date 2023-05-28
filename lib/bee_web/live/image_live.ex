@@ -19,7 +19,7 @@ defmodule BeeWeb.ImageLive do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="h-screen w-screen flex items-center justify-center antialiased">
+    <div class="flex items-center justify-center antialiased">
       <div class="flex flex-col items-center w-1/2">
         <form class="m-0 flex flex-col items-center space-y-2" phx-change="noop" phx-submit="noop">
           <.image_input id="image" upload={@uploads.image} height={224} width={224} />
