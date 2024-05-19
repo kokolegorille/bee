@@ -109,7 +109,12 @@ defmodule BeeWeb.SpeechLive do
   @impl true
   def handle_info({ref, result}, socket) when socket.assigns.task.ref == ref do
     Process.demonitor(ref, [:flush])
-    %{results: [%{text: text}]} = result
+    IO.inspect result, label: "RESULT"
+    # %{results: [%{text: text}]} = result
+
+    %{chunks: chunks} = result
+    text = chunks |> Enum.map(& &1.text) |> Enum.join()
+
     {:noreply, assign(socket, transcription: text, task: nil)}
   end
 
